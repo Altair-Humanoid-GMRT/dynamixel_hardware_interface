@@ -1040,25 +1040,24 @@ namespace dynamixel_hardware_interface
     const std::shared_ptr<dynamixel_msgs::srv::SetTorque::Request> request,
     std::shared_ptr<dynamixel_msgs::srv::SetTorque::Response> response)
   {
-    uint8_t id = static_cast<uint8_t>(request->id);
+    std::vector<uint8_t> ids = request->id;
     bool torque_enable = request->enable;
 
     if (torque_enable) {
-      if (dxl_comm_->DynamixelEnable(id) == DxlError::OK) {
-        response->result = true;
-      }
-      else {
+      if (dxl_comm_->DynamixelEnable(ids) != DxlError::OK) {
         response->result = false;
+        return;
       }
     }
     else {
-      if (dxl_comm_->DynamixelDisable(id) == DxlError::OK) {
-        response->result = true;
-      }
-      else {
+      if (dxl_comm_->DynamixelDisable(ids) != DxlError::OK) {
         response->result = false;
+        return;
       }
     }
+
+    response->result = true;
+
   }
 
   void DynamixelHardware::initRevoluteToPrismaticParam()
