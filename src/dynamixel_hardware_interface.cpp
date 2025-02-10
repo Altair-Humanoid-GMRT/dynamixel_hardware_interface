@@ -281,6 +281,13 @@ namespace dynamixel_hardware_interface
       str_set_dxl_torque_srv_name,
       std::bind(&DynamixelHardware::set_dxl_torque_srv_callback, this, _1, _2));
 
+    std::string str_set_dxl_torque_id_srv_name =
+      info_.hardware_parameters["set_dxl_torque_id_srv_name"];
+    set_dxl_torque_id_srv_ = create_service<dynamixel_msgs::srv::SetTorque>(
+      str_set_dxl_torque_id_srv_name,
+      std::bind(&DynamixelHardware::set_dxl_torque_id_srv_callback, this, _1, _2));
+
+
     ros_update_freq_ = stoi(info_.hardware_parameters["ros_update_freq"]);
 
     return hardware_interface::CallbackReturn::SUCCESS;
@@ -1027,6 +1034,30 @@ namespace dynamixel_hardware_interface
     }
     response->success = false;
     response->message = "Fail to write requeset. main thread is not running.";
+  }
+
+  void DynamixelHardware::set_dxl_torque_id_srv_callback(
+    const std::shared_ptr<dynamixel_msgs::srv::SetTorque::Request> request,
+    std::shared_ptr<dynamixel_msgs::srv::SetTorque::Response> response)
+  {
+    std::vector<uint8_t> ids = request->id;
+    bool torque_enable = request->enable;
+
+    if (torque_enable) {
+      if (dxl_comm_->DynamixelEnable(ids) != DxlError::OK) {
+        response->result = false;
+        return;
+      }
+    }
+    else {
+      if (dxl_comm_->DynamixelDisable(ids) != DxlError::OK) {
+        response->result = false;
+        return;
+      }
+    }
+
+    response->result = true;
+
   }
 
   void DynamixelHardware::initRevoluteToPrismaticParam()

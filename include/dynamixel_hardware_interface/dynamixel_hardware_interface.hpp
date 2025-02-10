@@ -37,6 +37,7 @@
 #include "dynamixel_msgs/srv/get_data_from_dxl.hpp"
 #include "dynamixel_msgs/srv/set_data_to_dxl.hpp"
 #include "dynamixel_msgs/srv/reboot_dxl.hpp"
+#include "dynamixel_msgs/srv/set_torque.hpp"
 
 #include "realtime_tools/realtime_publisher.h"
 #include "realtime_tools/realtime_buffer.h"
@@ -321,6 +322,11 @@ namespace dynamixel_hardware_interface
     void set_dxl_torque_srv_callback(
       const std::shared_ptr<std_srvs::srv::SetBool::Request> request,
       std::shared_ptr<std_srvs::srv::SetBool::Response> response);
+    
+    rclcpp::Service<dynamixel_msgs::srv::SetTorque>::SharedPtr set_dxl_torque_id_srv_;
+    void set_dxl_torque_id_srv_callback(
+      const std::shared_ptr<dynamixel_msgs::srv::SetTorque::Request> request,
+      std::shared_ptr<dynamixel_msgs::srv::SetTorque::Response> response);
 
     void initRevoluteToPrismaticParam();
 
