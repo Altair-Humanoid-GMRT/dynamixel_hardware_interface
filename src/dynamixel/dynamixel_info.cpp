@@ -130,7 +130,6 @@ namespace dynamixel_hardware_interface
     uint8_t& size)
   {
     for (size_t i = 0; i < dxl_info_[id].item.size(); i++) {
-      std::cout << "==========GetDxlControlItem: " << dxl_info_[id].item.at(i).item_name.c_str() << std::endl;
       if (strcmp(item_name.c_str(), dxl_info_[id].item.at(i).item_name.c_str()) == 0) {
         addr = dxl_info_[id].item.at(i).address;
         size = dxl_info_[id].item.at(i).size;

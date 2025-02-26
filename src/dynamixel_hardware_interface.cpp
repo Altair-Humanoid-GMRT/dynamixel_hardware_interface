@@ -88,17 +88,6 @@ namespace dynamixel_hardware_interface
     RCLCPP_INFO_STREAM(logger_, "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
     RCLCPP_INFO_STREAM(logger_, "$$$$$ Init Dxl Comm Port");
 
-    if (info_.hardware_parameters.find("use_revolute_to_prismatic_gripper") !=
-      info_.hardware_parameters.end())
-    {
-      use_revolute_to_prismatic_ =
-        std::stoi(info_.hardware_parameters.at("use_revolute_to_prismatic_gripper")) != 0;
-    }
-
-    if (use_revolute_to_prismatic_) {
-      RCLCPP_INFO(logger_, "Revolute to Prismatic gripper conversion enabled.");
-      initRevoluteToPrismaticParam();
-    }
     for (const hardware_interface::ComponentInfo& gpio : info_.gpios) {
       if (gpio.parameters.at("type") == "dxl") {
         dxl_id_.push_back(static_cast<uint8_t>(stoi(gpio.parameters.at("ID"))));

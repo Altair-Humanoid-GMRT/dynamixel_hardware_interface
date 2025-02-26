@@ -59,7 +59,7 @@ Address	Size	Data Name
 144	2	Present Input Voltage
 146	1	Present Temperature
 218	2	Indirect Address 26
-249	1	Indirect Data 26
+249	1	Indirect Data 3
 218	2	Indirect Address Write
 249	1	Indirect Data Write
 578	2	Indirect Address Read
